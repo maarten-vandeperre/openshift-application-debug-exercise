@@ -1,0 +1,20 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: route-monolith
+  namespace: <NAMESPACE>
+  labels:
+    app: monolith
+    app.kubernetes.io/component: monolith
+    app.kubernetes.io/instance: monolith
+    app.kubernetes.io/name: monolith
+    app.kubernetes.io/part-of: monolith
+spec:
+  host: <HOST>
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: monolith
