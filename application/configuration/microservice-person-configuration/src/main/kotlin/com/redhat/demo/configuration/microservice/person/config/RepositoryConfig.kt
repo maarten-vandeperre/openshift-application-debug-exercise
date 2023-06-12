@@ -1,11 +1,12 @@
 package com.redhat.demo.configuration.microservice.person.config
 
-import com.mongodb.client.MongoClients
-import com.mongodb.client.MongoDatabase
-import com.redhat.demo.configuration.microservice.person.repositories.WithChannelUpdatePersonRepository
+import com.redhat.demo.configuration.microservice.person.repositories.WithOutboxPersonRepository
 import com.redhat.demo.core.usecases.repositories.v1.PersonRepository
+import com.redhat.demo.infra.dataproviders.core.repositories.JdbcTemplate
 import com.redhat.demo.infra.dataproviders.inmemory.repositories.InMemoryPersonRepository
-import com.redhat.demo.infra.dataproviders.postgres.repositories.MongoDbPersonRepository
+import com.redhat.demo.infra.dataproviders.postgres.repositories.PostgresJdbcTemplate
+import com.redhat.demo.infra.dataproviders.postgres.repositories.PostgresOutboxRepository
+import com.redhat.demo.infra.dataproviders.postgres.repositories.PostgresPersonRepository
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.inject.Default
 import jakarta.enterprise.inject.Produces
@@ -15,10 +16,11 @@ import org.eclipse.microprofile.config.inject.ConfigProperty
 @ApplicationScoped
 class RepositoryConfig(
     @ConfigProperty(name = "db.type") dbType: String,
-    @ConfigProperty(name = "db.mongo.connection_string", defaultValue = "not-set") mongoConnectionUrl: String,
-    @ConfigProperty(name = "channel.address_changed.url", defaultValue = "not-set") val personChangedChannelUrl: String
+    @ConfigProperty(name = "db.connection_string", defaultValue = "not-set") connectionUrl: String,
+    @ConfigProperty(name = "db.user", defaultValue = "not-set") user: String,
+    @ConfigProperty(name = "db.password", defaultValue = "not-set") password: String?
 ) {
-    private val mongoDatabase: MongoDatabase?
+    private val postgresJdbcTemplate: JdbcTemplate?
     private val databaseType: DatabaseType
 
     init {
@@ -28,9 +30,9 @@ class RepositoryConfig(
             else -> throw IllegalStateException("$dbType is not yet supported")
         }
         if (databaseType == DatabaseType.PHYSICAL) {
-            this.mongoDatabase = MongoClients.create(mongoConnectionUrl).getDatabase("microservice-person")
+            this.postgresJdbcTemplate = PostgresJdbcTemplate(connectionUrl!!, user!!, password!!)
         } else {
-            this.mongoDatabase = null
+            this.postgresJdbcTemplate = null
         }
     }
 
@@ -39,9 +41,9 @@ class RepositoryConfig(
     fun personRepository(): PersonRepository {
         return when (databaseType) {
             DatabaseType.IN_MEMORY -> InMemoryPersonRepository()
-            DatabaseType.PHYSICAL -> WithChannelUpdatePersonRepository(
-                MongoDbPersonRepository(mongoDatabase!!.getCollection("people")),
-                personChangedChannelUrl
+            DatabaseType.PHYSICAL -> WithOutboxPersonRepository(
+                PostgresPersonRepository(postgresJdbcTemplate!!),
+                PostgresOutboxRepository(postgresJdbcTemplate, "people_changed")
             )
         }
     }

@@ -211,7 +211,7 @@
         <module>application/core/usecases/v1</module>
         <module>application/infrastructure/dataproviders/core-dataprovider</module>
         <module>application/infrastructure/dataproviders/in-memory-dataprovider/v1</module>
-        <module>application/infrastructure/dataproviders/mongodb-dataprovider/v1</module>
+        <module>application/infrastructure/dataproviders/postgres-dataprovider/v1</module>
       </modules>
     </profile>
   </profiles>

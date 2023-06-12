@@ -13,7 +13,6 @@ interface CreatePersonUseCase {
         val firstName: String?,
         val lastName: String?,
         val birthDate: String?,
-        val addressRef: String?
     )
 
     data class Response(
@@ -32,13 +31,6 @@ class DefaultCreatePersonUseCase(
         }
         if (requestData.lastName == null) {
             throw ValidationException("Last name should not be null")
-        }
-        if(requestData.addressRef != null){
-            try {
-                UUID.fromString(requestData.addressRef)
-            } catch (e: Exception) {
-                throw ValidationException("Address ref is not a UUID format")
-            }
         }
         return CreatePersonUseCase.Response(
             personRepository.save(

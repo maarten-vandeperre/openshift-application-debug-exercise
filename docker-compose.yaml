@@ -1,17 +1,17 @@
 version: '3.8'
 services:
-  postgres:
+  postgres-person-api:
     image: postgres:15.3-alpine
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=knative_demo
+      - POSTGRES_DB=person_data
     ports:
       - '5432:5432'
     volumes:
       - postgres:/var/lib/postgresql/data
-      - ./db-init-scripts/postgres:/docker-entrypoint-initdb.d
+      - ./db-init-scripts/postgres-person-api:/docker-entrypoint-initdb.d
   mongo:
     ports:
       - '27017:27017'

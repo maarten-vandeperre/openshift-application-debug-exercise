@@ -14,7 +14,6 @@ interface UpdatePersonUseCase {
         val firstName: String?,
         val lastName: String?,
         val birthDate: String?,
-        val addressRef: String?,
     )
 
     data class Response(
@@ -44,15 +43,8 @@ class DefaultUpdatePersonUseCase(
         if (requestData.lastName == null) {
             throw ValidationException("Last name should not be null")
         }
-        if(!personRepository.exists(UUID.fromString(requestData.ref))){
+        if (!personRepository.exists(UUID.fromString(requestData.ref))) {
             throw ValidationException("No person with ref is found")
-        }
-        if(requestData.addressRef != null){
-            try {
-                UUID.fromString(requestData.addressRef)
-            } catch (e: Exception) {
-                throw ValidationException("Address ref is not a UUID format")
-            }
         }
         return UpdatePersonUseCase.Response(
             personRepository.save(

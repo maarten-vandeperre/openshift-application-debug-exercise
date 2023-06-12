@@ -29,7 +29,6 @@ class PersonResource(
                         firstName = data.firstName,
                         lastName = data.lastName,
                         birthDate = data.birthDate,
-                        addressRef = data.addressRef,
                     )
                 ).ref
             ).build()
@@ -52,7 +51,6 @@ class PersonResource(
                         firstName = data.firstName,
                         lastName = data.lastName,
                         birthDate = data.birthDate,
-                        addressRef = data.addressRef
                     )
                 ).ref
             ).build()
@@ -109,6 +107,5 @@ class PersonResource(
         var firstName: String?,
         var lastName: String?,
         var birthDate: String?,
-        var addressRef: String?
     )
 }

@@ -86,6 +86,7 @@ class PostgresPersonRepository(
             """
                 select *
                 from people p
+                order by id desc
             """.trimIndent()
         ) {
             PersonRepository.DbPerson(
