@@ -14,7 +14,7 @@ interface SaveMovieTrackingRecordUseCase {
     fun execute(requestData: Request): Response
 
     data class Request(
-        val ref: String?,
+        val ref: String? = null,
         val movie: String?,
         val person: String?,
         val action: String?
@@ -25,9 +25,10 @@ interface SaveMovieTrackingRecordUseCase {
     )
 
     class ValidationException(message: String) : Exception(message)
+    class NotFoundException(message: String) : Exception(message)
 }
 
-class DefaultCreateMovieTrackingRecordUseCase(
+class DefaultSaveMovieTrackingRecordUseCase(
     private val movieTrackingRecordRepository: MovieTrackingRecordRepository,
     private val personRepository: PersonRepository,
     private val movieRepository: MovieRepository,

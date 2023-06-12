@@ -20,9 +20,9 @@ interface SearchPeopleUseCase {
 
 class DefaultSearchPeopleUseCase(
     private val personRepository: PersonRepository
-) : SearchMoviesUseCase {
-    override fun execute(requestData: SearchMoviesUseCase.Request): SearchMoviesUseCase.Response {
-        return SearchMoviesUseCase.Response(
+) : SearchPeopleUseCase {
+    override fun execute(requestData: SearchPeopleUseCase.Request): SearchPeopleUseCase.Response {
+        return SearchPeopleUseCase.Response(
             personRepository.search().map {
                 ReadPerson(
                     ref = it.ref.toString(),

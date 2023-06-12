@@ -9,11 +9,17 @@ data class ReadPersonMovieHistory(
 data class ReadMovieTrackRecord(
     val movieRef: String,
     val movieName: String,
+    val movieCategories: List<ReadMovieCategory>,
     val actors: List<ReadActor>,
     val action: ReadMovieTrackingAction
 )
 
 data class ReadMovieTrackingAction(
+    val ref: String,
+    val name: String
+)
+
+data class ReadMovieCategory(
     val ref: String,
     val name: String
 )

@@ -23,22 +23,22 @@ interface GetMovieUseCase {
 
 class DefaultGetMovieUseCase(
     private val movieRepository: MovieRepository
-) : GetMovieTrackingRecordUseCase {
-    override fun execute(requestData: GetMovieTrackingRecordUseCase.Request): GetMovieTrackingRecordUseCase.Response {
+) : GetMovieUseCase {
+    override fun execute(requestData: GetMovieUseCase.Request): GetMovieUseCase.Response {
         if (requestData.ref == null) {
-            throw GetMovieTrackingRecordUseCase.ValidationException("Ref should not be null")
+            throw GetMovieUseCase.ValidationException("Ref should not be null")
         } else {
             try {
                 UUID.fromString(requestData.ref)
             } catch (e: Exception) {
-                throw GetMovieTrackingRecordUseCase.ValidationException("Ref is not a UUID format")
+                throw GetMovieUseCase.ValidationException("Ref is not a UUID format")
             }
         }
         if (!movieRepository.exists(UUID.fromString(requestData.ref))) {
-            throw GetMovieTrackingRecordUseCase.NotFoundException("No movie with ref is found")
+            throw GetMovieUseCase.NotFoundException("No movie with ref is found")
         }
         val dbMovie = movieRepository.get(UUID.fromString(requestData.ref))!!
-        return GetMovieTrackingRecordUseCase.Response(
+        return GetMovieUseCase.Response(
             ReadMovie(
                 ref = dbMovie.ref.toString(),
                 name = dbMovie.name,

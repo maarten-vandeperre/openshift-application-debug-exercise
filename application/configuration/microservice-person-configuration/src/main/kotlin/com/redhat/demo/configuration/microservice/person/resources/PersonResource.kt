@@ -13,9 +13,9 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag
 class PersonResource(
     private val createPersonUseCase: CreatePersonUseCase,
     private val updatePersonUseCase: UpdatePersonUseCase,
-    private val deletePersonUseCase: DeleteMovieUseCase,
+    private val deletePersonUseCase: DeletePersonUseCase,
     private val getPersonUseCase: GetPersonUseCase,
-    private val searchPeopleUseCase: SearchMoviesUseCase
+    private val searchPeopleUseCase: SearchPeopleUseCase
 ) {
     @POST
     @Consumes(value = [MediaType.APPLICATION_JSON])
@@ -70,9 +70,9 @@ class PersonResource(
     @Tag(name = "PEOPLE_API")
     fun deletePerson(@PathParam("ref") ref: String): Response {
         try {
-            deletePersonUseCase.execute(DeleteMovieUseCase.Request(ref = ref))
+            deletePersonUseCase.execute(DeletePersonUseCase.Request(ref = ref))
             return Response.ok().build()
-        } catch (e: DeleteMovieUseCase.ValidationException) {
+        } catch (e: DeletePersonUseCase.ValidationException) {
             return Response.status(422, e.localizedMessage).build()
         }
     }
@@ -99,8 +99,8 @@ class PersonResource(
     @APIResponseSchema(value = ReadPerson::class)
     fun searchPeople(): Response {
         try {
-            return Response.ok(searchPeopleUseCase.execute(SearchMoviesUseCase.Request()).people).build()
-        } catch (e: SearchMoviesUseCase.ValidationException) {
+            return Response.ok(searchPeopleUseCase.execute(SearchPeopleUseCase.Request()).people).build()
+        } catch (e: SearchPeopleUseCase.ValidationException) {
             return Response.status(422, e.localizedMessage).build()
         }
     }

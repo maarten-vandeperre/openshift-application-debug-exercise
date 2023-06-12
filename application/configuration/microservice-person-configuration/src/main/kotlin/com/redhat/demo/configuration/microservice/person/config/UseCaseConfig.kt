@@ -7,9 +7,9 @@ import com.redhat.demo.core.usecases.v1.person.DefaultDeletePersonUseCase
 import com.redhat.demo.core.usecases.v1.person.DefaultGetPersonUseCase
 import com.redhat.demo.core.usecases.v1.person.DefaultSearchPeopleUseCase
 import com.redhat.demo.core.usecases.v1.person.DefaultUpdatePersonUseCase
-import com.redhat.demo.core.usecases.v1.person.DeleteMovieUseCase
+import com.redhat.demo.core.usecases.v1.person.DeletePersonUseCase
 import com.redhat.demo.core.usecases.v1.person.GetPersonUseCase
-import com.redhat.demo.core.usecases.v1.person.SearchMoviesUseCase
+import com.redhat.demo.core.usecases.v1.person.SearchPeopleUseCase
 import com.redhat.demo.core.usecases.v1.person.UpdatePersonUseCase
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.inject.Produces
@@ -28,7 +28,7 @@ class UseCaseConfig {
     }
 
     @Produces
-    fun deletePersonUseCase(personRepository: PersonRepository): DeleteMovieUseCase {
+    fun deletePersonUseCase(personRepository: PersonRepository): DeletePersonUseCase {
         return DefaultDeletePersonUseCase(personRepository)
     }
 
@@ -38,7 +38,7 @@ class UseCaseConfig {
     }
 
     @Produces
-    fun searchPeopleUseCase(personRepository: PersonRepository): SearchMoviesUseCase {
+    fun searchPeopleUseCase(personRepository: PersonRepository): SearchPeopleUseCase {
         return DefaultSearchPeopleUseCase(personRepository)
     }
 

@@ -19,8 +19,8 @@ interface DeletePersonUseCase {
 
 class DefaultDeletePersonUseCase(
     private val personRepository: PersonRepository
-) : DeleteMovieUseCase {
-    override fun execute(requestData: DeleteMovieUseCase.Request): DeleteMovieUseCase.Response {
+) : DeletePersonUseCase {
+    override fun execute(requestData: DeletePersonUseCase.Request): DeletePersonUseCase.Response {
         if (requestData.ref == null) {
             throw UpdatePersonUseCase.ValidationException("Ref should not be null")
         } else {
@@ -31,7 +31,7 @@ class DefaultDeletePersonUseCase(
             }
         }
         personRepository.delete(UUID.fromString(requestData.ref))
-        return DeleteMovieUseCase.Response()
+        return DeletePersonUseCase.Response()
     }
 
 }

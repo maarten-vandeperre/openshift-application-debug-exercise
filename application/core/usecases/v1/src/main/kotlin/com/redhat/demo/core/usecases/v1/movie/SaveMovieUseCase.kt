@@ -13,7 +13,7 @@ interface SaveMovieUseCase {
     fun execute(requestData: Request): Response
 
     data class Request(
-        val ref: String?,
+        val ref: String? = null,
         val name: String?,
         val categories: List<String>,
         val actors: List<String>
@@ -24,10 +24,13 @@ interface SaveMovieUseCase {
     )
 
     class ValidationException(message: String) : Exception(message)
+    class NotFoundException(message: String) : Exception(message)
 }
 
-class DefaultCreateMovieUseCase(
-    private val movieRepository: MovieRepository, private val movieCategoryRepository: MovieCategoryRepository, private val personRepository: PersonRepository
+class DefaultSaveMovieUseCase(
+    private val movieRepository: MovieRepository,
+    private val movieCategoryRepository: MovieCategoryRepository,
+    private val personRepository: PersonRepository
 ) : SaveMovieUseCase {
     override fun execute(requestData: SaveMovieUseCase.Request): SaveMovieUseCase.Response {
         if (requestData.ref != null && !UuidUtils.isValidUuid(requestData.ref)) {

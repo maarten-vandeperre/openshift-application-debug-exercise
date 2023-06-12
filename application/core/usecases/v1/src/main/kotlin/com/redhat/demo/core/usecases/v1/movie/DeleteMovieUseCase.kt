@@ -19,19 +19,19 @@ interface DeleteMovieUseCase {
 
 class DefaultDeleteMovieUseCase(
     private val movieRepository: MovieRepository
-) : DeleteMovieTrackingRecordUseCase {
-    override fun execute(requestData: DeleteMovieTrackingRecordUseCase.Request): DeleteMovieTrackingRecordUseCase.Response {
+) : DeleteMovieUseCase {
+    override fun execute(requestData: DeleteMovieUseCase.Request): DeleteMovieUseCase.Response {
         if (requestData.ref == null) {
-            throw DeleteMovieTrackingRecordUseCase.ValidationException("Ref should not be null")
+            throw DeleteMovieUseCase.ValidationException("Ref should not be null")
         } else {
             try {
                 UUID.fromString(requestData.ref)
             } catch (e: Exception) {
-                throw DeleteMovieTrackingRecordUseCase.ValidationException("Ref is not a UUID format")
+                throw DeleteMovieUseCase.ValidationException("Ref is not a UUID format")
             }
         }
         movieRepository.delete(UUID.fromString(requestData.ref))
-        return DeleteMovieTrackingRecordUseCase.Response()
+        return DeleteMovieUseCase.Response()
     }
 
 }

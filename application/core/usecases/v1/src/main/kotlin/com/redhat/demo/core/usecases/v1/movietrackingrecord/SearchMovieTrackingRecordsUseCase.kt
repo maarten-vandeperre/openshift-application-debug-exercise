@@ -18,7 +18,7 @@ interface SearchMovieTrackingRecordsUseCase {
     class ValidationException(message: String) : Exception(message)
 }
 
-class DefaultSearchMoviesUseCase(
+class DefaultSearchMovieTrackingRecordsUseCase(
     private val movieTrackingRecordRepository: MovieTrackingRecordRepository
 ) : SearchMovieTrackingRecordsUseCase {
     override fun execute(requestData: SearchMovieTrackingRecordsUseCase.Request): SearchMovieTrackingRecordsUseCase.Response {

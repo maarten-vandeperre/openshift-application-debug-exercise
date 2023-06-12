@@ -1,9 +1,6 @@
 package com.redhat.demo.core.usecases.v1.personmoviehistory
 
-import com.redhat.demo.core.domain.v1.ReadActor
-import com.redhat.demo.core.domain.v1.ReadMovieTrackRecord
-import com.redhat.demo.core.domain.v1.ReadMovieTrackingAction
-import com.redhat.demo.core.domain.v1.ReadPersonMovieHistory
+import com.redhat.demo.core.domain.v1.*
 import com.redhat.demo.core.usecases.repositories.v1.PersonMovieHistoryRepository
 import java.util.*
 
@@ -43,7 +40,13 @@ class DefaultSearchAccountsUseCase(
                             action = ReadMovieTrackingAction(
                                 ref = h.action.movieTrackingActionRef.toString(),
                                 name = h.action.name
-                            )
+                            ),
+                            movieCategories = h.categories.map { c ->
+                                ReadMovieCategory(
+                                    ref = c.movieCategoryRef.toString(),
+                                    name = c.name
+                                )
+                            }
                         )
                     }
                 )

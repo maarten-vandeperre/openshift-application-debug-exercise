@@ -61,7 +61,6 @@ class DefaultUpdatePersonUseCase(
                     firstName = requestData.firstName,
                     lastName = requestData.lastName,
                     birthDate = requestData.birthDate,
-                    addressRef = requestData.addressRef?.let { UUID.fromString(it) }
                 )
             )
         )

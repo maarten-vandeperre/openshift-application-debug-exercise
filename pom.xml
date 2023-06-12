@@ -172,6 +172,7 @@
       <modules>
         <module>application/configuration/microservice-person-configuration</module>
         <module>application/configuration/microservice-movie-configuration</module>
+        <module>application/configuration/microservice-movie-tracking-configuration</module>
         <module>application/core/domain/v1</module>
         <module>application/core/usecases/v1</module>
         <module>application/infrastructure/dataproviders/core-dataprovider</module>
@@ -188,18 +189,18 @@
         <module>application/core/usecases/v1</module>
         <module>application/infrastructure/dataproviders/core-dataprovider</module>
         <module>application/infrastructure/dataproviders/in-memory-dataprovider/v1</module>
-        <module>application/infrastructure/dataproviders/postgres-dataprovider/v1</module>
+        <module>application/infrastructure/dataproviders/mongodb-dataprovider/v1</module>
       </modules>
     </profile>
     <profile>
       <id>microservice-movie-tracking</id>
       <modules>
-        <module>application/configuration/microservice-movie-configuration</module>
+        <module>application/configuration/microservice-movie-tracking-configuration</module>
         <module>application/core/domain/v1</module>
         <module>application/core/usecases/v1</module>
         <module>application/infrastructure/dataproviders/core-dataprovider</module>
         <module>application/infrastructure/dataproviders/in-memory-dataprovider/v1</module>
-        <module>application/infrastructure/dataproviders/postgres-dataprovider/v1</module>
+        <module>application/infrastructure/dataproviders/mongodb-dataprovider/v1</module>
       </modules>
     </profile>
     <profile>
