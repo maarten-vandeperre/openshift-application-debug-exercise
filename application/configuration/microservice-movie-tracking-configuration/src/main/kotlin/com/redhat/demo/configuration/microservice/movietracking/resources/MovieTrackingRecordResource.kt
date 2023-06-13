@@ -117,5 +117,9 @@ class MovieTrackingRecordResource(
         val movie: String?,
         val person: String?,
         val action: String?,
-    )
+    ){
+        override fun toString(): String {
+            return "RequestData(movie=$movie, person=$person, action=$action)"
+        }
+    }
 }

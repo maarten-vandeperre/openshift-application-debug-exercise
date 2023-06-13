@@ -112,5 +112,9 @@ class PersonResource(
         var firstName: String?,
         var lastName: String?,
         var birthDate: String?,
-    )
+    ){
+        override fun toString(): String {
+            return "RequestData(firstName=$firstName, lastName=$lastName, birthDate=$birthDate)"
+        }
+    }
 }

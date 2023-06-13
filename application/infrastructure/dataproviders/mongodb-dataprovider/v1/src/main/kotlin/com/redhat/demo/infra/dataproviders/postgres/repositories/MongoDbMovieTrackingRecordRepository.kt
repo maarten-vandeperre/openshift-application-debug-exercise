@@ -2,8 +2,10 @@ package com.redhat.demo.infra.dataproviders.postgres.repositories
 
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Sorts.descending
 import com.redhat.demo.core.usecases.repositories.v1.MovieTrackingRecordRepository
 import org.bson.Document
+import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -29,6 +31,7 @@ class MongoDbMovieTrackingRecordRepository(
                     .append("person", movieTrackingRecord.person.toString())
                     .append("movie", movieTrackingRecord.movie.toString())
                     .append("action", movieTrackingRecord.action.toString())
+                    .append("created", LocalDateTime.now().toString())
             )
         }
         return movieTrackingRecord.ref.toString()
@@ -55,7 +58,7 @@ class MongoDbMovieTrackingRecordRepository(
     }
 
     override fun search(): List<MovieTrackingRecordRepository.DbMovieTrackingRecord> {
-        return collection.find().toList().map {
+        return collection.find().sort(descending("created")).toList().map {
             MovieTrackingRecordRepository.DbMovieTrackingRecord(
                 ref = UUID.fromString(it.getString("ref")),
                 person = UUID.fromString(it.getString("person")),

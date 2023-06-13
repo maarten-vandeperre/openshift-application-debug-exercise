@@ -2,7 +2,6 @@ package com.redhat.demo.configuration.microservice.movie.config
 
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
-import com.redhat.demo.configuration.microservice.movie.repositories.WithBrokerUpdateMovieRepository
 import com.redhat.demo.core.usecases.repositories.v1.MovieCategoryRepository
 import com.redhat.demo.core.usecases.repositories.v1.MovieRepository
 import com.redhat.demo.core.usecases.repositories.v1.PersonRepository
@@ -46,10 +45,11 @@ class RepositoryConfig(
     fun movieRepository(): MovieRepository {
         return when (databaseType) {
             DatabaseType.IN_MEMORY -> InMemoryMovieRepository()
-            DatabaseType.PHYSICAL -> WithBrokerUpdateMovieRepository(
-                MongoDbMovieRepository(mongoDatabase!!.getCollection("movies")),
-                movieChangedChannelUrl
-            )
+//            DatabaseType.PHYSICAL -> WithBrokerUpdateMovieRepository(
+//                MongoDbMovieRepository(mongoDatabase!!.getCollection("movies")),
+//                movieChangedChannelUrl
+//            )
+            DatabaseType.PHYSICAL -> MongoDbMovieRepository(mongoDatabase!!.getCollection("movies"))
         }
     }
 

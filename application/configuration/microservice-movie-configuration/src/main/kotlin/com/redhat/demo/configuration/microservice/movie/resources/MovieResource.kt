@@ -35,6 +35,7 @@ class MovieResource(
                 ).ref
             ).build()
         } catch (e: SaveMovieUseCase.ValidationException) {
+            System.err.println(e.localizedMessage)
             return Response.status(422, e.localizedMessage).build()
         }
     }
@@ -58,8 +59,10 @@ class MovieResource(
                 ).ref
             ).build()
         } catch (e: SaveMovieUseCase.ValidationException) {
+            System.err.println(e.localizedMessage)
             return Response.status(422, e.localizedMessage).build()
         } catch (e: SaveMovieUseCase.NotFoundException) {
+            System.err.println(e.localizedMessage)
             return Response.status(404, e.localizedMessage).build()
         }
     }
@@ -113,5 +116,9 @@ class MovieResource(
         val name: String?,
         var categories: List<String>,
         var actors: List<String>
-    )
+    ){
+        override fun toString(): String {
+            return "RequestData(name=$name, categories=$categories, actors=$actors)"
+        }
+    }
 }

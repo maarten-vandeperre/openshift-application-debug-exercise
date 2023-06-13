@@ -35,6 +35,13 @@ export default function PersonCrudComponent(props: Props) {
     useEffect(() => {
         // @ts-ignore
         dispatch(fetchPersonData())
+        setTimeout(
+            () => {
+                // @ts-ignore
+                dispatch(fetchPersonData())
+            },
+            1500
+        )
     }, [peopleRequestCount])
     const personServiceData = useSelector((state: any) => state.personServiceData);
 

@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {SyntheticEvent, useState} from "react";
 import PersonCrudComponent from "./PersonCrudComponent";
+import MovieCrudComponent from "./MovieCrudComponent";
 
 interface Props {
 
@@ -37,7 +38,7 @@ export default function TabbedContentPane(props: Props) {
                     <PersonCrudComponent />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    Item Two
+                    <MovieCrudComponent />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     Item Three
