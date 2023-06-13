@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-person
+  namespace: <NAMESPACE>
+  labels:
+    app: microservice-person
+    app.kubernetes.io/component: microservice-person
+    app.kubernetes.io/instance: microservice-person
+    app.kubernetes.io/name: microservice-person
+    app.kubernetes.io/part-of: microservice-person
+spec:
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: microservice-person
+    deployment: microservice-person
+  type: ClusterIP

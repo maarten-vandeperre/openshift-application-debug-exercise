@@ -1,0 +1,20 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: route-microservice-person
+  namespace: <NAMESPACE>
+  labels:
+    app: microservice-person
+    app.kubernetes.io/component: microservice-person
+    app.kubernetes.io/instance: microservice-person
+    app.kubernetes.io/name: microservice-person
+    app.kubernetes.io/part-of: microservice-person
+spec:
+  host: <HOST>
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: microservice-person

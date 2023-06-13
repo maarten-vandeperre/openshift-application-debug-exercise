@@ -1,0 +1,20 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: route-ui
+  namespace: <NAMESPACE>
+  labels:
+    app: ui
+    app.kubernetes.io/component: ui
+    app.kubernetes.io/instance: ui
+    app.kubernetes.io/name: ui
+    app.kubernetes.io/part-of: ui
+spec:
+  host: <HOST>
+  port:
+    targetPort: 80-tcp
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: ui

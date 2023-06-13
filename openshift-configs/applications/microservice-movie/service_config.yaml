@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-movie
+  namespace: <NAMESPACE>
+  labels:
+    app: microservice-movie
+    app.kubernetes.io/component: microservice-movie
+    app.kubernetes.io/instance: microservice-movie
+    app.kubernetes.io/name: microservice-movie
+    app.kubernetes.io/part-of: microservice-movie
+spec:
+  ports:
+    - name: 8081-tcp
+      port: 8081
+      protocol: TCP
+      targetPort: 8081
+  selector:
+    app: microservice-movie
+    deployment: microservice-movie
+  type: ClusterIP

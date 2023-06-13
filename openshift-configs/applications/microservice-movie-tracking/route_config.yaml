@@ -1,0 +1,20 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: route-microservice-movie-tracking
+  namespace: <NAMESPACE>
+  labels:
+    app: microservice-movie-tracking
+    app.kubernetes.io/component: microservice-movie-tracking
+    app.kubernetes.io/instance: microservice-movie-tracking
+    app.kubernetes.io/name: microservice-movie-tracking
+    app.kubernetes.io/part-of: microservice-movie-tracking
+spec:
+  host: <HOST>
+  port:
+    targetPort: 8082-tcp
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: microservice-movie-tracking

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-movie-tracking
+  namespace: <NAMESPACE>
+  labels:
+    app: microservice-movie-tracking
+    app.kubernetes.io/component: microservice-movie-tracking
+    app.kubernetes.io/instance: microservice-movie-tracking
+    app.kubernetes.io/name: microservice-movie-tracking
+    app.kubernetes.io/part-of: microservice-movie-tracking
+spec:
+  ports:
+    - name: 8082-tcp
+      port: 8082
+      protocol: TCP
+      targetPort: 8082
+  selector:
+    app: microservice-movie-tracking
+    deployment: microservice-movie-tracking
+  type: ClusterIP

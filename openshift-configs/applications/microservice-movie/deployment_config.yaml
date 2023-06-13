@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: <NAMESPACE>
+  name: 'microservice-movie'
+  annotations: {}
+  labels:
+    app: microservice-movie
+    app.kubernetes.io/component: microservice-movie
+    app.kubernetes.io/instance: microservice-movie
+    app.kubernetes.io/name: microservice-movie
+    app.kubernetes.io/part-of: microservice-movie
+    app.openshift.io/runtime-namespace: <NAMESPACE>
+spec:
+  selector:
+    matchLabels:
+      app: microservice-movie
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: microservice-movie
+        app.kubernetes.io/component: microservice-movie
+        app.kubernetes.io/name: microservice-movie
+        deployment: microservice-movie
+    spec:
+      containers:
+        - name: container
+          image: >-
+            <DOCKER_IMAGE>
+          ports:
+            - containerPort: 8081
+              protocol: TCP
+            - containerPort: 8444
+              protocol: TCP
+          env:
+            - name: quarkus.profile
+              value: db-in-memory
+      imagePullSecrets: []
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  paused: false

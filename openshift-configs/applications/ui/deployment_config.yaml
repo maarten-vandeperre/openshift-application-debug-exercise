@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: <NAMESPACE>
+  name: 'ui'
+  annotations: {}
+  labels:
+    app: ui
+    app.kubernetes.io/component: ui
+    app.kubernetes.io/instance: ui
+    app.kubernetes.io/name: ui
+    app.kubernetes.io/part-of: ui
+    app.openshift.io/runtime-namespace: <NAMESPACE>
+spec:
+  selector:
+    matchLabels:
+      app: ui
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ui
+        app.kubernetes.io/component: ui
+        app.kubernetes.io/name: ui
+        deployment: ui
+    spec:
+      containers:
+        - name: container
+          image: >-
+            <DOCKER_IMAGE>
+          ports:
+            - containerPort: 80
+              protocol: TCP
+      imagePullSecrets: []
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  paused: false

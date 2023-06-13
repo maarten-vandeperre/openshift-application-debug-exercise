@@ -1,0 +1,20 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: route-microservice-movie
+  namespace: <NAMESPACE>
+  labels:
+    app: microservice-movie
+    app.kubernetes.io/component: microservice-movie
+    app.kubernetes.io/instance: microservice-movie
+    app.kubernetes.io/name: microservice-movie
+    app.kubernetes.io/part-of: microservice-movie
+spec:
+  host: <HOST>
+  port:
+    targetPort: 8081-tcp
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: microservice-movie

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: <NAMESPACE>
+  name: 'microservice-movie-tracking'
+  annotations: {}
+  labels:
+    app: microservice-movie-tracking
+    app.kubernetes.io/component: microservice-movie-tracking
+    app.kubernetes.io/instance: microservice-movie-tracking
+    app.kubernetes.io/name: microservice-movie-tracking
+    app.kubernetes.io/part-of: microservice-movie-tracking
+    app.openshift.io/runtime-namespace: <NAMESPACE>
+spec:
+  selector:
+    matchLabels:
+      app: microservice-movie-tracking
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: microservice-movie-tracking
+        app.kubernetes.io/component: microservice-movie-tracking
+        app.kubernetes.io/name: microservice-movie-tracking
+        deployment: microservice-movie-tracking
+    spec:
+      containers:
+        - name: container
+          image: >-
+            <DOCKER_IMAGE>
+          ports:
+            - containerPort: 8082
+              protocol: TCP
+            - containerPort: 8445
+              protocol: TCP
+          env:
+            - name: quarkus.profile
+              value: db-in-memory
+      imagePullSecrets: []
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  paused: false
