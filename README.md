@@ -1,4 +1,6 @@
 # OpenShift Application Debug Exercise
+## Project outline
+![Project Outline](images/openshift_application_debug_exercise_outline.jpg "Project Outline")
 ## OpenShift Setup
 ### Application Deployments
 * Create a project within OpenShift 
@@ -96,7 +98,24 @@ sh scripts/patch_link_databases.sh
 ```text
   https://ui.<NAMESPACE>.<BASE_URL>
 ```
-
+### Enable Aggregated Container Logs
+* Install the 'OpenShift Elasticsearch Operator' supported by Red Hat operator
+* Install the 'Red Hat OpenShift Logging' supported by Red Hat operator
+  * Ensure that the A specific namespace on the cluster is selected under Installation Mode. 
+  * Ensure that Operator recommended namespace is openshift-logging under Installed Namespace.
+  * Select Enable operator recommended cluster monitoring on this namespace.  
+  _You must select this option to ensure that cluster monitoring scrapes the openshift-logging namespace._
+* Create a cluster logging configuration:
+```shell
+oc apply -f openshift-configs/enable-logging/cluster_logging.yaml
+```
+* Define index pattern in Kibana
+  * In the OpenShift Container Platform console, click the Application Launcher app launcher and select Logging. 
+  * Create your Kibana index patterns by clicking Management > Index Patterns > Create index pattern:
+    * Each user must manually create index patterns when logging into Kibana the first time to see logs for their projects. Users must create an index pattern named app and use the @timestamp time field to view their container logs. 
+      * Each admin user must create index patterns when logged into Kibana the first time for the app, infra, and audit indices using the @timestamp time field.
+  * Create Kibana Visualizations from the new index patterns.
+  * Start visualizing.
 
 
 

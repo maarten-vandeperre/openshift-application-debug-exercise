@@ -32,6 +32,9 @@ class DefaultCreatePersonUseCase(
         if (requestData.lastName == null) {
             throw ValidationException("Last name should not be null")
         }
+        if(requestData.birthDate != null && !requestData.birthDate.contains("-")){
+            throw ValidationException("Birth date format is not valid")
+        }
         return CreatePersonUseCase.Response(
             personRepository.save(
                 PersonRepository.DbPerson(
