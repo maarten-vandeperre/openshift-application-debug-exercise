@@ -1,6 +1,6 @@
 #!/bin/sh
 NAMESPACE=$(cat environment/.namespace) #name of your OpenShift namespace
-VERSION="0.0.22" #version of the application
+VERSION="0.1.0" #version of the application
 DOCKER_BASE_IMAGE="quay.io/appdev_playground/openshift-application-debug-exercise"
 
 

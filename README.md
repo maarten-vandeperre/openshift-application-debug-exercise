@@ -1,5 +1,6 @@
 # OpenShift Application Debug Exercise
 ## OpenShift Setup
+### Application Deployments
 * Create a project within OpenShift 
 ```shell
 oc login ... # do log in
@@ -39,3 +40,31 @@ sh scripts/apply_on_openshift.sh
 ```text
   https://ui.<NAMESPACE>.<BASE_URL>
 ```
+!!!_At the time of writing, there is still a bug in the in memory databases, so linking to newly created people will fail. See next sections to implement a database connection._
+
+### Infrastructure setup
+* Create a MongoDB database
+```shell
+oc new-app \
+  -e MONGO_INITDB_ROOT_USERNAME=mongo \
+  -e MONGO_INITDB_ROOT_PASSWORD=mongo \
+  mongo:4.2.24 \
+  --name mongodb
+```
+* Create a Postgres database  
+_This is a custom image with WAL enabled in order to allow Debezium to connect to it. You can find the source container file at /openshift-configs/dockerfiles/DockerfilePostgresWal_
+```shell
+oc new-app \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=knative_demo \
+  -e PGDATA=/tmp/data/pgdata \
+  quay.io/appdev_playground/wal_postgres:0.0.2 \
+  --name postgres
+```
+
+
+* 
+
+
+* 
