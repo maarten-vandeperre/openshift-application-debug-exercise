@@ -55,14 +55,16 @@ class MongoDbMovieRepository(
     }
 
     override fun search(): List<MovieRepository.DbMovie> {
-        return collection.find().toList().map {
+        val result = collection.find().toList().map {
             MovieRepository.DbMovie(
                 ref = UUID.fromString(it.getString("ref")),
-                name = it.getString("movieLine1"),
+                name = it.getString("name"),
                 actors = it.getList("actors", String::class.java).map { UUID.fromString(it) },
                 categories = it.getList("categories", String::class.java).map { UUID.fromString(it) },
             )
         }
+        println("DB: found ${result.size} movies")
+        return result
     }
 
     companion object {

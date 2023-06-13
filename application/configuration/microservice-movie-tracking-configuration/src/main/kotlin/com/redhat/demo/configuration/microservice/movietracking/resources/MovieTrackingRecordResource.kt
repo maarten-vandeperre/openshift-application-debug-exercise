@@ -27,6 +27,7 @@ class MovieTrackingRecordResource(
     @Operation(summary = "Create movie tracking record")
     @Tag(name = "MOVIE_TRACKING_RECORDS_API")
     fun createMovieTrackingRecord(data: RequestData): Response {
+        println("REQUEST: create movie tracking record with data: $data")
         try {
             return Response.ok(
                 saveMovieTrackingRecordUseCase.execute(
@@ -48,6 +49,7 @@ class MovieTrackingRecordResource(
     @Operation(summary = "Update movie tracking record")
     @Tag(name = "MOVIE_TRACKING_RECORDS_API")
     fun updateMovieTrackingRecord(@PathParam("ref") ref: String, data: RequestData): Response {
+        println("REQUEST: update movie tracking record with id $ref and data: $data")
         try {
             return Response.ok(
                 saveMovieTrackingRecordUseCase.execute(
@@ -72,6 +74,7 @@ class MovieTrackingRecordResource(
     @Operation(summary = "Delete movie tracking record")
     @Tag(name = "MOVIE_TRACKING_RECORDS_API")
     fun deleteMovieTrackingRecord(@PathParam("ref") ref: String): Response {
+        println("REQUEST: delete movie tracking record with id $ref")
         try {
             deleteMovieTrackingRecordUseCase.execute(DeleteMovieTrackingRecordUseCase.Request(ref = ref))
             return Response.ok().build()
@@ -87,6 +90,7 @@ class MovieTrackingRecordResource(
     @Tag(name = "MOVIE_TRACKING_RECORDS_API")
     @APIResponseSchema(value = ReadMovie::class)
     fun getMovieTrackingRecord(@PathParam("ref") ref: String): Response {
+        println("REQUEST: get movie tracking record with id $ref")
         try {
             return Response.ok(getMovieTrackingRecordUseCase.execute(GetMovieTrackingRecordUseCase.Request(ref = ref)).movieTrackingRecord).build()
         } catch (e: GetMovieUseCase.ValidationException) {
@@ -101,6 +105,7 @@ class MovieTrackingRecordResource(
     @Tag(name = "MOVIE_TRACKING_RECORDS_API")
     @APIResponseSchema(value = ReadMovie::class)
     fun searchMovieTrackingRecords(): Response {
+        println("REQUEST: get all movie tracking records")
         try {
             return Response.ok(searchMovieTrackingRecordsUseCase.execute(SearchMovieTrackingRecordsUseCase.Request()).movieTrackingRecords).build()
         } catch (e: SearchMoviesUseCase.ValidationException) {

@@ -23,6 +23,7 @@ class MovieResource(
     @Operation(summary = "Create movie")
     @Tag(name = "MOVIES_API")
     fun createMovie(data: RequestData): Response {
+        println("REQUEST: create movie with data: ${data}")
         try {
             return Response.ok(
                 saveMovieUseCase.execute(
@@ -44,6 +45,7 @@ class MovieResource(
     @Operation(summary = "Update movie")
     @Tag(name = "MOVIES_API")
     fun updateMovie(@PathParam("ref") ref: String, data: RequestData): Response {
+        println("REQUEST: update movie id $ref and with data: ${data}")
         try {
             return Response.ok(
                 saveMovieUseCase.execute(
@@ -68,6 +70,7 @@ class MovieResource(
     @Operation(summary = "Delete movie")
     @Tag(name = "MOVIES_API")
     fun deleteMovie(@PathParam("ref") ref: String): Response {
+        println("REQUEST: delete movie with id: ${ref}")
         try {
             deleteMovieUseCase.execute(DeleteMovieUseCase.Request(ref = ref))
             return Response.ok().build()
@@ -83,6 +86,7 @@ class MovieResource(
     @Tag(name = "MOVIES_API")
     @APIResponseSchema(value = ReadMovie::class)
     fun getMovie(@PathParam("ref") ref: String): Response {
+        println("REQUEST: get movie with id: ${ref}")
         try {
             return Response.ok(getMovieUseCase.execute(GetMovieUseCase.Request(ref = ref)).movie).build()
         } catch (e: GetMovieUseCase.ValidationException) {
@@ -97,6 +101,7 @@ class MovieResource(
     @Tag(name = "MOVIES_API")
     @APIResponseSchema(value = ReadMovie::class)
     fun searchMovies(): Response {
+        println("REQUEST: get all movies")
         try {
             return Response.ok(searchMoviesUseCase.execute(SearchMoviesUseCase.Request()).movies).build()
         } catch (e: SearchMoviesUseCase.ValidationException) {

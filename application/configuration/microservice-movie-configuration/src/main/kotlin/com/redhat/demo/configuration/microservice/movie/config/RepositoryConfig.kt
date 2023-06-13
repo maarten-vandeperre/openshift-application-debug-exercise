@@ -34,7 +34,8 @@ class RepositoryConfig(
             else -> throw IllegalStateException("$dbType is not yet supported")
         }
         if (databaseType == DatabaseType.PHYSICAL) {
-            this.mongoDatabase = MongoClients.create(mongoConnectionUrl).getDatabase("microservice-movie")
+//            this.mongoDatabase = MongoClients.create(mongoConnectionUrl).getDatabase("microservice-movie") FIXME no shared database instance
+            this.mongoDatabase = MongoClients.create(mongoConnectionUrl).getDatabase("movie-data")
         } else {
             this.mongoDatabase = null
         }

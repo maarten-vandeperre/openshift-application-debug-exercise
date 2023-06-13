@@ -12,7 +12,8 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
       - ./db-init-scripts/postgres-person-api:/docker-entrypoint-initdb.d
-  mongo:
+  mongo-movie-api:
+    image: mongo:4.2.24
     ports:
       - '27017:27017'
     restart: always
@@ -22,7 +23,14 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongo
       - MONGO_INITDB_ROOT_PASSWORD=mongo
-    image: mongo:4.2.24
+    volumes:
+      - ./db-init-scripts/mongodb-movie-api/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongodb-data:/data/db
+      - mongodb-log:/var/log/mongodb
 volumes:
   postgres:
+    driver: local
+  mongodb-data:
+    driver: local
+  mongodb-log:
     driver: local

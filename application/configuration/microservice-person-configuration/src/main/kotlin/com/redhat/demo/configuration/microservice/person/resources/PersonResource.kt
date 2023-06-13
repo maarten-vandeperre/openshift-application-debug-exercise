@@ -22,6 +22,7 @@ class PersonResource(
     @Operation(summary = "Create person")
     @Tag(name = "PEOPLE_API")
     fun createPerson(data: RequestData): Response {
+        println("REQUEST: create person with data: ${data}")
         try {
             return Response.ok(
                 createPersonUseCase.execute(
@@ -43,6 +44,7 @@ class PersonResource(
     @Operation(summary = "Update person")
     @Tag(name = "PEOPLE_API")
     fun updatePerson(@PathParam("ref") ref: String, data: RequestData): Response {
+        println("REQUEST: update person with id $ref and data: ${data}")
         try {
             return Response.ok(
                 updatePersonUseCase.execute(
@@ -67,6 +69,7 @@ class PersonResource(
     @Operation(summary = "Delete person")
     @Tag(name = "PEOPLE_API")
     fun deletePerson(@PathParam("ref") ref: String): Response {
+        println("REQUEST: delete person with id: ${ref}")
         try {
             deletePersonUseCase.execute(DeletePersonUseCase.Request(ref = ref))
             return Response.ok().build()
@@ -82,6 +85,7 @@ class PersonResource(
     @Tag(name = "PEOPLE_API")
     @APIResponseSchema(value = ReadPerson::class)
     fun getPerson(@PathParam("ref") ref: String): Response {
+        println("REQUEST: get person with id: ${ref}")
         try {
             return Response.ok(getPersonUseCase.execute(GetPersonUseCase.Request(ref = ref)).person).build()
         } catch (e: GetPersonUseCase.ValidationException) {
@@ -96,6 +100,7 @@ class PersonResource(
     @Tag(name = "PEOPLE_API")
     @APIResponseSchema(value = ReadPerson::class)
     fun searchPeople(): Response {
+        println("REQUEST: search people")
         try {
             return Response.ok(searchPeopleUseCase.execute(SearchPeopleUseCase.Request()).people).build()
         } catch (e: SearchPeopleUseCase.ValidationException) {

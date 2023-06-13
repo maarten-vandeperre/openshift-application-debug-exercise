@@ -1,4 +1,4 @@
-package com.redhat.demo.configuration.microservice.movieTracking
+package com.redhat.demo.configuration.microservice.movietracking
 
 import jakarta.ws.rs.core.Application
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition
