@@ -1,0 +1,22 @@
+.main-screen {
+  .menu-bar {
+    .logo {
+      max-height: 50px;
+    }
+
+    .title {
+      padding-left: 50px;
+    }
+  }
+
+  .screen-content {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 25px;
+  }
+
+  .paper {
+    margin-top: 25px;
+    padding: 15px 50px;
+  }
+}

@@ -33,12 +33,13 @@ class MovieTrackingRecordResource(
                 saveMovieTrackingRecordUseCase.execute(
                     SaveMovieTrackingRecordUseCase.Request(
                         movie = data.movie,
-                        person = data.movie,
+                        person = data.person,
                         action = data.action
                     )
                 ).ref
             ).build()
         } catch (e: SaveMovieTrackingRecordUseCase.ValidationException) {
+            System.err.println(e.localizedMessage)
             return Response.status(422, e.localizedMessage).build()
         }
     }
@@ -56,12 +57,13 @@ class MovieTrackingRecordResource(
                     SaveMovieTrackingRecordUseCase.Request(
                         ref = ref,
                         movie = data.movie,
-                        person = data.movie,
+                        person = data.person,
                         action = data.action
                     )
                 ).ref
             ).build()
         } catch (e: SaveMovieTrackingRecordUseCase.ValidationException) {
+            System.err.println(e.localizedMessage)
             return Response.status(422, e.localizedMessage).build()
         } catch (e: SaveMovieTrackingRecordUseCase.NotFoundException) {
             return Response.status(404, e.localizedMessage).build()
@@ -109,6 +111,7 @@ class MovieTrackingRecordResource(
         try {
             return Response.ok(searchMovieTrackingRecordsUseCase.execute(SearchMovieTrackingRecordsUseCase.Request()).movieTrackingRecords).build()
         } catch (e: SearchMoviesUseCase.ValidationException) {
+            System.err.println(e.localizedMessage)
             return Response.status(422, e.localizedMessage).build()
         }
     }

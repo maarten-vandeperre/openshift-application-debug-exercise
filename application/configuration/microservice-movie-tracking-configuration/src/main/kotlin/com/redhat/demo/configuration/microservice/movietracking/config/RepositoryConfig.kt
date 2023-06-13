@@ -49,10 +49,11 @@ class RepositoryConfig(
     fun movieTrackingRecordRepository(): MovieTrackingRecordRepository {
         return when (databaseType) {
             DatabaseType.IN_MEMORY -> InMemoryMovieTrackingRecordRepository()
-            DatabaseType.PHYSICAL -> WithBrokerUpdateMovieTrackingRecordRepository(
-                MongoDbMovieTrackingRecordRepository(mongoDatabase!!.getCollection("movie-tracking-records")),
-                movieTrackingRecordChangedChannelUrl
-            )
+//            DatabaseType.PHYSICAL -> WithBrokerUpdateMovieTrackingRecordRepository(
+//                MongoDbMovieTrackingRecordRepository(mongoDatabase!!.getCollection("movie-tracking-records")),
+//                movieTrackingRecordChangedChannelUrl
+//            )
+            DatabaseType.PHYSICAL -> MongoDbMovieTrackingRecordRepository(mongoDatabase!!.getCollection("movie-tracking-records"))
         }
     }
 

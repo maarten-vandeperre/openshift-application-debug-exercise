@@ -40,7 +40,7 @@ export default function PersonCrudComponent(props: Props) {
                 // @ts-ignore
                 dispatch(fetchPersonData())
             },
-            1500
+            500
         )
     }, [peopleRequestCount])
     const personServiceData = useSelector((state: any) => state.personServiceData);

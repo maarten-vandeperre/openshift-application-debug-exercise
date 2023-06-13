@@ -20,6 +20,7 @@ import Select, {SelectChangeEvent} from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchMovieData, postMovieData} from "../redux/MovieServiceDataReducer";
+import {fetchPersonData} from "../redux/PersonServiceDataReducer";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -40,12 +41,6 @@ interface Pair {
     name: string
 }
 
-const ACTORS: Pair[] = [
-    {ref: "13ed6a67-a4c4-4307-85da-2accbcf25aa7", name: "Maarten Vandeperre"},
-    {ref: "23ed6a67-a4c4-4307-85da-2accbcf25aa7", name: "Pieter Vandeperre"},
-    {ref: "33ed6a67-a4c4-4307-85da-2accbcf25aa7", name: "Bart Joris"},
-]
-
 const CATEGORIES: Pair[] = [
     {ref: "45b2dd57-e985-411c-aa67-1f4981f1b6cf", name: "Action"},
     {ref: "605f08b0-0166-4457-8481-08a3c44fe1ec", name: "Thriller"},
@@ -56,7 +51,7 @@ const CATEGORIES: Pair[] = [
 export default function MovieCrudComponent(props: Props) {
     const theme = useTheme();
 
-    const [peopleRequestCount, setPeopleRequestCount] = useState(0);
+    const [moviesRequestCount, setMoviesRequestCount] = useState(0);
     const [name, setName] = useState("");
     const [actors, setActors] = useState<string[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
@@ -67,15 +62,22 @@ export default function MovieCrudComponent(props: Props) {
     useEffect(() => {
         // @ts-ignore
         dispatch(fetchMovieData())
+        // @ts-ignore
+        dispatch(fetchPersonData())
         setTimeout(
             () => {
                 // @ts-ignore
                 dispatch(fetchMovieData())
+                // @ts-ignore
+                dispatch(fetchPersonData())
             },
-            1500
+            500
         )
-    }, [peopleRequestCount])
+    }, [moviesRequestCount])
     const movieServiceData = useSelector((state: any) => state.movieServiceData);
+    const personServiceData = useSelector((state: any) => state.personServiceData);
+
+    const ACTORS = personServiceData.people.map((p: any) => {return {ref: p.ref, name: `${p.firstName} ${p.lastName}`}})
 
     const validateFormSubmit = () => {
         setNameError("");
@@ -88,7 +90,7 @@ export default function MovieCrudComponent(props: Props) {
         if (!error) {
             // @ts-ignore
             dispatch(postMovieData(name, actors, categories))
-            setPeopleRequestCount(peopleRequestCount + 1)
+            setMoviesRequestCount(moviesRequestCount + 1)
         }
     }
 
@@ -112,7 +114,7 @@ export default function MovieCrudComponent(props: Props) {
         );
     };
 
-    const actorNames = ACTORS.filter(a => actors.indexOf(a.ref) !== -1).map(a => a.name)
+    const actorNames = ACTORS.filter((a: any) => actors.indexOf(a.ref) !== -1).map((a: any) => a.name)
     const categoryNames = CATEGORIES.filter(c => categories.indexOf(c.ref) !== -1).map(c => c.name)
 
     return (
@@ -141,7 +143,7 @@ export default function MovieCrudComponent(props: Props) {
                                 input={<Input id="select-multiple-chip-actors"/>}
                                 renderValue={(selected) => (
                                     <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
-                                        {actorNames.map((value) => (
+                                        {actorNames.map((value: any) => (
                                             <Chip key={value} label={value}/>
                                         ))}
                                     </Box>
@@ -207,6 +209,8 @@ export default function MovieCrudComponent(props: Props) {
             <Button variant="outlined" startIcon={<RefreshIcon/>} onClick={() => {
                 // @ts-ignore
                 dispatch(fetchMovieData())
+                // @ts-ignore
+                dispatch(fetchPersonData())
             }
             }>
                 Refresh
@@ -220,7 +224,7 @@ export default function MovieCrudComponent(props: Props) {
                             <StyledTableCell>Ref</StyledTableCell>
                             <StyledTableCell align="left">Name</StyledTableCell>
                             <StyledTableCell align="left">Categories</StyledTableCell>
-                            <StyledTableCell align="left">Categories</StyledTableCell>
+                            <StyledTableCell align="left">Actors</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -232,15 +236,15 @@ export default function MovieCrudComponent(props: Props) {
                                 <StyledTableCell align="left">{data.name}</StyledTableCell>
                                 <StyledTableCell align="left">
                                     <ul>
-                                        {data.categories.map((a: any) => {
-                                            return <li>{a}</li>
+                                        {data.categories.map((c: any) => {
+                                            return <li>{CATEGORIES.filter((e: Pair) => e.ref === c)[0].name}</li>
                                         })}
                                     </ul>
                                 </StyledTableCell>
                                 <StyledTableCell align="left">
                                     <ul>
-                                        {data.categories.map((c: any) => {
-                                            return <li>{c}</li>
+                                        {data.actors.map((a: any) => {
+                                            return <li>{ACTORS.filter((e: Pair) => e.ref === a)[0].name}</li>
                                         })}
                                     </ul>
                                 </StyledTableCell>

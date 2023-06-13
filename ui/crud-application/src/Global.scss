@@ -1,0 +1,22 @@
+@font-face {
+  font-family: "RedHatFont";
+  src: url("../public/assets/fonts/RedHatFont/webfonts/RedHatText/RedHatText-Regular.ttf") format('ttf');
+}
+
+@font-face {
+  font-family: "RedHatFont";
+  src: url("../public/assets/fonts/RedHatFont/webfonts/RedHatText/RedHatText-Bold.ttf") format('ttf');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "RedHatFont";
+  src: url("../public/assets/fonts/RedHatFont/webfonts/RedHatText/RedHatText-Italic.ttf") format('ttf');
+  font-weight: bold;
+  font-style: italic;
+}
+
+body {
+  font-family: "RedHatFont";
+  font-size: 0.75em;
+}
