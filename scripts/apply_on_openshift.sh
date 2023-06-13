@@ -89,11 +89,11 @@ DOCKER_BASE_IMAGE="quay.io/appdev_playground/openshift-application-debug-exercis
   properties="$(cat ui/crud-application/.prod-env)"
   properties="$(echo "${properties//<NAMESPACE>/$NAMESPACE}")"
   properties="$(echo "${properties//<BASE_URL>/$BASE_URL}")"
-  mv ui/crud-application/.prod-env ui/crud-application/.prod-env.backup
+  mv ui/crud-application/.prod-env ui/crud-application/.prod-env-backup
   echo "$properties" > ui/crud-application/.prod-env
   docker build -t "$DOCKER_BASE_IMAGE:ui-$VERSION" -f ./ui/crud-application/Dockerfile_nginx ./ui/crud-application --platform linux/amd64
   docker push "$DOCKER_BASE_IMAGE:ui-$VERSION"
-  mv ui/crud-application/.prod-env.backup ui/crud-application/.prod-env
+  mv ui/crud-application/.prod-env-backup ui/crud-application/.prod-env
 
   properties="$(cat openshift-configs/applications/ui/deployment_config.yaml)"
   properties="$(echo "${properties//<NAMESPACE>/$NAMESPACE}")"

@@ -2,7 +2,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: route-ui
-  namespace: voxxed-days
+  namespace: <NAMESPACE>
   labels:
     app: ui
     app.kubernetes.io/component: ui
