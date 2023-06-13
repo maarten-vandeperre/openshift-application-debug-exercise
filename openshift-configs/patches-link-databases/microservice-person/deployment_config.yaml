@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: <NAMESPACE>
+  name: 'microservice-person'
+  annotations: {}
+  labels:
+    app: microservice-person
+    app.kubernetes.io/component: microservice-person
+    app.kubernetes.io/instance: microservice-person
+    app.kubernetes.io/name: microservice-person
+    app.kubernetes.io/part-of: microservice-person
+    app.openshift.io/runtime-namespace: <NAMESPACE>
+spec:
+  selector:
+    matchLabels:
+      app: microservice-person
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: microservice-person
+        app.kubernetes.io/component: microservice-person
+        app.kubernetes.io/name: microservice-person
+        deployment: microservice-person
+    spec:
+      containers:
+        - name: container
+          image: >-
+            <DOCKER_IMAGE>
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+          env:
+            - name: quarkus.profile
+              value: db-postgres
+            - name: db.connection_string
+              value: >-
+                jdbc:postgresql://postgres.<NAMESPACE>.svc.cluster.local:5432/openshift_exercise
+      imagePullSecrets: []
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  paused: false

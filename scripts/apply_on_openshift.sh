@@ -1,7 +1,7 @@
 #!/bin/sh
 NAMESPACE=$(cat environment/.namespace) #name of your OpenShift namespace
 BASE_URL=$(cat environment/.base-route) #base URL of your OpenShift namespace
-VERSION="0.1.0" #version of the application
+VERSION=$(cat environment/.version) #version of the application
 DOCKER_BASE_IMAGE="quay.io/appdev_playground/openshift-application-debug-exercise"
 
 ##################################################################################################

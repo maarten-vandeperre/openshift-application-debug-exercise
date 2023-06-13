@@ -18,7 +18,7 @@ oc project sample-project # make sure you have your project active
 /environment/.base-route
 ```
 * **Optional**  _(you can as well use the already published docker images in next step)_
-increase "VERSION" in /scripts/build_and_deploy_docker_images.sh and run it
+increase "VERSION" in /environment/.version and run /scripts/build_and_deploy_docker_images.sh
 ```shell
 sh scripts/build_and_deploy_docker_images.sh
 ```
@@ -28,13 +28,13 @@ sh scripts/apply_on_openshift.sh
 ```
 * You now should be able to access the following URLs via REST (CURL, browser, postman, ...)
   * ```text
-    https://microservice-person.<NAMESPACE>.<BASE_URL>
+    https://microservice-person.<NAMESPACE>.<BASE_URL>/api/people
     ```
   * ```text
-    https://microservice-movie.<NAMESPACE>.<BASE_URL>
+    https://microservice-movie.<NAMESPACE>.<BASE_URL>/api/movies
     ```
   * ```text
-    https://microservice-movie-tracking.<NAMESPACE>.<BASE_URL>
+    https://microservice-movie-tracking.<NAMESPACE>.<BASE_URL>/api/movie-tracking-records
     ```
 * You now can access the application (with in memory databases) on
 ```text
@@ -57,14 +57,46 @@ _This is a custom image with WAL enabled in order to allow Debezium to connect t
 oc new-app \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=postgres \
-  -e POSTGRES_DB=knative_demo \
+  -e POSTGRES_DB=openshift_exercise \
   -e PGDATA=/tmp/data/pgdata \
   quay.io/appdev_playground/wal_postgres:0.0.2 \
   --name postgres
 ```
+* Add default data to the postgres database
+```text
+Open the UI
+Go to deployments > postgres > pods > pod > terminal
+Execute: psql -h localhost -d openshift_exercise -U postgres -W 
+Password: postgres
+Copy-Paste and run db-init-scripts/postgres-person-api/001_setup_person_table.sql
+Copy-Paste and run db-init-scripts/postgres-person-api/002_add_outbox_tables.sql
+```
+* Add default data to the mongodb database
+```text
+Open the UI
+Go to deployments > mongodb > pods > pod > terminal
+Execute: mongo mongodb://mongo:mongo@localhost:27017
+Copy-Paste and run db-init-scripts/mongodb-movie-api/mongo-init.js (it can be that you need to copy-paste collection per collection)
+```
+* Add the databases to the microservices
+```shell
+sh scripts/patch_link_databases.sh
+```
+* You now should be able to access the following URLs via REST (CURL, browser, postman, ...)
+  * ```text
+    https://microservice-person.<NAMESPACE>.<BASE_URL>/api/people
+    ```
+  * ```text
+    https://microservice-movie.<NAMESPACE>.<BASE_URL>/api/movies
+    ```
+  * ```text
+    https://microservice-movie-tracking.<NAMESPACE>.<BASE_URL>/api/movie-tracking-records
+    ```
+* You now can access the application (with in memory databases) on
+```text
+  https://ui.<NAMESPACE>.<BASE_URL>
+```
 
 
-* 
 
 
-* 
