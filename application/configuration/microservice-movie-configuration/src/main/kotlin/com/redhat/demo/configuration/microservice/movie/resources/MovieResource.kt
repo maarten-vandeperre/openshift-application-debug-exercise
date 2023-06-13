@@ -1,8 +1,6 @@
 package com.redhat.demo.configuration.microservice.movie.resources
 
 import com.redhat.demo.core.domain.v1.ReadMovie
-import com.redhat.demo.core.usecases.v1.movie.DeleteMovieUseCase
-import com.redhat.demo.core.usecases.v1.movie.SearchMoviesUseCase
 import com.redhat.demo.core.usecases.v1.movie.*
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
@@ -10,6 +8,7 @@ import jakarta.ws.rs.core.Response
 import org.eclipse.microprofile.openapi.annotations.Operation
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponseSchema
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
+import java.time.LocalDateTime
 
 @Path("/api/movies")
 class MovieResource(
@@ -23,7 +22,7 @@ class MovieResource(
     @Operation(summary = "Create movie")
     @Tag(name = "MOVIES_API")
     fun createMovie(data: RequestData): Response {
-        println("REQUEST: create movie with data: ${data}")
+        println("""{"logLevel": "INFO", "message: "${"REQUEST: create movie with data: ${data}"}", "logTs": "${LocalDateTime.now().toString()}"}""")
         try {
             return Response.ok(
                 saveMovieUseCase.execute(
@@ -46,7 +45,7 @@ class MovieResource(
     @Operation(summary = "Update movie")
     @Tag(name = "MOVIES_API")
     fun updateMovie(@PathParam("ref") ref: String, data: RequestData): Response {
-        println("REQUEST: update movie id $ref and with data: ${data}")
+        println("""{"logLevel": "INFO", "message: "${"REQUEST: update movie id $ref and with data: $data"}", "logTs": "${LocalDateTime.now().toString()}"}""")
         try {
             return Response.ok(
                 saveMovieUseCase.execute(
@@ -73,7 +72,8 @@ class MovieResource(
     @Operation(summary = "Delete movie")
     @Tag(name = "MOVIES_API")
     fun deleteMovie(@PathParam("ref") ref: String): Response {
-        println("REQUEST: delete movie with id: ${ref}")
+        println("""{"logLevel": "INFO", "message: "${"REQUEST: delete movie with id: ${ref}"}", "logTs": "${LocalDateTime.now().toString()}"}""")
+        println("")
         try {
             deleteMovieUseCase.execute(DeleteMovieUseCase.Request(ref = ref))
             return Response.ok().build()
@@ -89,7 +89,7 @@ class MovieResource(
     @Tag(name = "MOVIES_API")
     @APIResponseSchema(value = ReadMovie::class)
     fun getMovie(@PathParam("ref") ref: String): Response {
-        println("REQUEST: get movie with id: ${ref}")
+        println("""{"logLevel": "INFO", "message: "${"REQUEST: get movie with id: ${ref}"}", "logTs": "${LocalDateTime.now().toString()}"}""")
         try {
             return Response.ok(getMovieUseCase.execute(GetMovieUseCase.Request(ref = ref)).movie).build()
         } catch (e: GetMovieUseCase.ValidationException) {
@@ -104,7 +104,7 @@ class MovieResource(
     @Tag(name = "MOVIES_API")
     @APIResponseSchema(value = ReadMovie::class)
     fun searchMovies(): Response {
-        println("REQUEST: get all movies")
+        println("""{"logLevel": "INFO", "message: "${"REQUEST: get all movies"}", "logTs": "${LocalDateTime.now().toString()}"}""")
         try {
             return Response.ok(searchMoviesUseCase.execute(SearchMoviesUseCase.Request()).movies).build()
         } catch (e: SearchMoviesUseCase.ValidationException) {
@@ -116,7 +116,7 @@ class MovieResource(
         val name: String?,
         var categories: List<String>,
         var actors: List<String>
-    ){
+    ) {
         override fun toString(): String {
             return "RequestData(name=$name, categories=$categories, actors=$actors)"
         }

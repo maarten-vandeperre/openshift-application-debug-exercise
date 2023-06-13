@@ -1,0 +1,2 @@
+FROM registry.access.redhat.com/ubi7/nginx-120@sha256:3ade03f81caeef368e05e5dca41b67e4ed28732639a828e52de4634d76ee5746
+COPY ./build /usr/share/nginx/html/

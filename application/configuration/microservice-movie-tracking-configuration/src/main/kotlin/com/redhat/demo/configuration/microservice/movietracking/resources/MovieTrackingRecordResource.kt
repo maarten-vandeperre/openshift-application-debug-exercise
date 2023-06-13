@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.Response
 import org.eclipse.microprofile.openapi.annotations.Operation
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponseSchema
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
+import java.time.LocalDateTime
 
 @Path("/api/movie-tracking-records")
 class MovieTrackingRecordResource(
@@ -27,7 +28,7 @@ class MovieTrackingRecordResource(
     @Operation(summary = "Create movie tracking record")
     @Tag(name = "MOVIE_TRACKING_RECORDS_API")
     fun createMovieTrackingRecord(data: RequestData): Response {
-        println("REQUEST: create movie tracking record with data: $data")
+        println("""{"logLevel": "INFO", "message: "${"REQUEST: create movie tracking record with data: $data"}", "logTs": "${LocalDateTime.now().toString()}"}""")
         try {
             return Response.ok(
                 saveMovieTrackingRecordUseCase.execute(
@@ -50,7 +51,7 @@ class MovieTrackingRecordResource(
     @Operation(summary = "Update movie tracking record")
     @Tag(name = "MOVIE_TRACKING_RECORDS_API")
     fun updateMovieTrackingRecord(@PathParam("ref") ref: String, data: RequestData): Response {
-        println("REQUEST: update movie tracking record with id $ref and data: $data")
+        println("""{"logLevel": "INFO", "message: "${"REQUEST: update movie tracking record with id $ref and data: $data"}", "logTs": "${LocalDateTime.now().toString()}"}""")
         try {
             return Response.ok(
                 saveMovieTrackingRecordUseCase.execute(
@@ -76,7 +77,7 @@ class MovieTrackingRecordResource(
     @Operation(summary = "Delete movie tracking record")
     @Tag(name = "MOVIE_TRACKING_RECORDS_API")
     fun deleteMovieTrackingRecord(@PathParam("ref") ref: String): Response {
-        println("REQUEST: delete movie tracking record with id $ref")
+        println("""{"logLevel": "INFO", "message: "${"REQUEST: delete movie tracking record with id $ref"}", "logTs": "${LocalDateTime.now().toString()}"}""")
         try {
             deleteMovieTrackingRecordUseCase.execute(DeleteMovieTrackingRecordUseCase.Request(ref = ref))
             return Response.ok().build()
@@ -92,7 +93,7 @@ class MovieTrackingRecordResource(
     @Tag(name = "MOVIE_TRACKING_RECORDS_API")
     @APIResponseSchema(value = ReadMovie::class)
     fun getMovieTrackingRecord(@PathParam("ref") ref: String): Response {
-        println("REQUEST: get movie tracking record with id $ref")
+        println("""{"logLevel": "INFO", "message: "${"REQUEST: get movie tracking record with id $ref"}", "logTs": "${LocalDateTime.now().toString()}"}""")
         try {
             return Response.ok(getMovieTrackingRecordUseCase.execute(GetMovieTrackingRecordUseCase.Request(ref = ref)).movieTrackingRecord).build()
         } catch (e: GetMovieUseCase.ValidationException) {
@@ -107,7 +108,7 @@ class MovieTrackingRecordResource(
     @Tag(name = "MOVIE_TRACKING_RECORDS_API")
     @APIResponseSchema(value = ReadMovie::class)
     fun searchMovieTrackingRecords(): Response {
-        println("REQUEST: get all movie tracking records")
+        println("""{"logLevel": "INFO", "message: "${"REQUEST: get all movie tracking records"}", "logTs": "${LocalDateTime.now().toString()}"}""")
         try {
             return Response.ok(searchMovieTrackingRecordsUseCase.execute(SearchMovieTrackingRecordsUseCase.Request()).movieTrackingRecords).build()
         } catch (e: SearchMoviesUseCase.ValidationException) {
