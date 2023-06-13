@@ -2,7 +2,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: route-ui
-  namespace: <NAMESPACE>
+  namespace: voxxed-days
   labels:
     app: ui
     app.kubernetes.io/component: ui
@@ -10,9 +10,9 @@ metadata:
     app.kubernetes.io/name: ui
     app.kubernetes.io/part-of: ui
 spec:
-  host: <HOST>
+  host: ui.voxxed-days.apps.ocp4-bm.redhat.arrowlabs.be
   port:
-    targetPort: 80-tcp
+    targetPort: 8080-tcp
   tls:
     termination: edge
   to:

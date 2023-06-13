@@ -1,7 +1,7 @@
 #!/bin/sh
 NAMESPACE=$(cat environment/.namespace) #name of your OpenShift namespace
 BASE_URL=$(cat environment/.base-route) #base URL of your OpenShift namespace
-VERSION="0.0.16" #version of the application
+VERSION="0.0.25" #version of the application
 DOCKER_BASE_IMAGE="quay.io/appdev_playground/openshift-application-debug-exercise"
 
 ##################################################################################################
@@ -83,12 +83,22 @@ DOCKER_BASE_IMAGE="quay.io/appdev_playground/openshift-application-debug-exercis
   oc apply -f openshift-configs/applications/microservice-movie-tracking/route_config.yaml
   mv openshift-configs/applications/microservice-movie-tracking/route_config.backup.yaml openshift-configs/applications/microservice-movie-tracking/route_config.yaml
 
-##################################################################################################
-####################################### UI #######################################################
-##################################################################################################
+###################################################################################################
+######################################## UI #######################################################
+###################################################################################################
+  properties="$(cat ui/crud-application/.prod-env)"
+  properties="$(echo "${properties//<NAMESPACE>/$NAMESPACE}")"
+  properties="$(echo "${properties//<BASE_URL>/$BASE_URL}")"
+  mv ui/crud-application/.prod-env ui/crud-application/.prod-env.backup
+  echo "$properties" > ui/crud-application/.prod-env
+  docker build -t "$DOCKER_BASE_IMAGE:ui-$VERSION" -f ./ui/crud-application/Dockerfile_nginx ./ui/crud-application --platform linux/amd64
+  docker push "$DOCKER_BASE_IMAGE:ui-$VERSION"
+  mv ui/crud-application/.prod-env.backup ui/crud-application/.prod-env
+
   properties="$(cat openshift-configs/applications/ui/deployment_config.yaml)"
   properties="$(echo "${properties//<NAMESPACE>/$NAMESPACE}")"
   properties="$(echo "${properties//<DOCKER_IMAGE>/$DOCKER_BASE_IMAGE:ui-$VERSION}")"
+  properties="$(echo "${properties//<BASE_URL>/$BASE_URL}")"
   mv openshift-configs/applications/ui/deployment_config.yaml openshift-configs/applications/ui/deployment_config.backup.yaml
   echo "$properties" > openshift-configs/applications/ui/deployment_config.yaml
   oc apply -f openshift-configs/applications/ui/deployment_config.yaml
